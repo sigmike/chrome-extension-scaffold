@@ -13,10 +13,8 @@ def log_built(src, dst)
 end
 
 <% if coffee? -%>
-watch( '(.+)\.coffee$' ) do |md|
-  src = md[0]
-  dst = md[1]
-  
+def build_coffee(src)
+  dst = src.sub /\.coffee$/, ''
   js = File.read(src)
   eruby = Erubis::Eruby.new(js)
   js = eruby.result(binding())
@@ -24,17 +22,21 @@ watch( '(.+)\.coffee$' ) do |md|
   File.open(dst, "w") { |f| f.write js }
   log_built(src, dst)
 end
+
+watch( '(.+)\.coffee$' ) { |md| build_coffee(md[0]) }
+Dir["**/*.coffee"].each { |file| build_coffee(file) }
 <% end -%>
 
 <% if haml? -%>
-watch( '(.+)\.haml$' ) do |md|
-  src = md[0]
-  dst = md[1]
-  
+def build_haml(src)
+  dst = src.sub /\.haml$/, ''
   template = File.read(src)
   haml_engine = Haml::Engine.new(template, :filename => src)
   output = haml_engine.render(binding())
   File.open(dst, "w") { |f| f.write output }
   log_built(src, dst)
 end
+
+watch( '(.+)\.haml$' ) { |md| build_haml(md[0]) }
+Dir["**/*.haml"].each { |file| build_haml(file) }
 <% end -%>

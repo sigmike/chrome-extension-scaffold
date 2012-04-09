@@ -47,7 +47,11 @@ module ChromeExtensionScaffold
         if watcher?
           template "Gemfile"
           inside do
-            Bundler.with_clean_env do
+            if defined? Bundler
+              Bundler.with_clean_env do
+                run "bundle install"
+              end
+            else
               run "bundle install"
             end
           end
