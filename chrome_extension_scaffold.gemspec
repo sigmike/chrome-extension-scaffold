@@ -14,4 +14,5 @@ Gem::Specification.new do |gem|
   gem.name          = "chrome_extension_scaffold"
   gem.require_paths = ["lib"]
   gem.version       = ChromeExtensionScaffold::VERSION
+  gem.add_dependency('thor')
 end
