@@ -32,6 +32,10 @@ module ChromeExtensionScaffold
         template "background.js"
       end
       
+      def install_content_js
+        template "content.js"
+      end
+      
       protected
       def jquery?
         options[:jquery]
