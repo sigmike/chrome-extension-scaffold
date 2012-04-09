@@ -10,6 +10,7 @@ module ChromeExtensionScaffold
       source_root File.expand_path("../../template", __FILE__)
       
       class_option :jquery, :default => true, :type => :boolean
+      class_option :haml, :default => true, :type => :boolean
       
       def create_root
         empty_directory name
@@ -25,7 +26,11 @@ module ChromeExtensionScaffold
       end
       
       def install_background_html
-        template "background.html"
+        if haml?
+          template "background.html.haml"
+        else
+          template "background.html"
+        end
       end
       
       def install_background_js
@@ -36,9 +41,34 @@ module ChromeExtensionScaffold
         template "content.js"
       end
       
+      def install_watcher
+        if watcher?
+          template "Gemfile"
+          inside do
+            Bundler.with_clean_env do
+              run "bundle install"
+            end
+          end
+          template "watcher"
+          chmod "watcher", 0755
+        end
+      end
+      
       protected
       def jquery?
         options[:jquery]
+      end
+
+      def haml?
+        options[:jquery]
+      end
+      
+      def watcher?
+        haml?
+      end
+      
+      def coffee?
+        false
       end
     end
   end

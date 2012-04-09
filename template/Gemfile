@@ -1,0 +1,8 @@
+source "http://rubygems.org"
+
+gem 'watchr'
+gem 'haml'
+#gem 'sass'
+#gem 'coffee-script'
+#gem "erubis"
+#gem "therubyracer"
