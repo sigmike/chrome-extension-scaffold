@@ -11,13 +11,17 @@ module ChromeExtensionScaffold
       
       class_option :jquery, :default => true, :type => :boolean
       
-      def set_root
+      def create_root
         empty_directory name
         self.destination_root = name
       end
       
-      def create_dir
+      def install_manifest
         template "manifest.json"
+      end
+      
+      def install_jquery
+        copy_file "jquery.js" if jquery?
       end
       
       protected
