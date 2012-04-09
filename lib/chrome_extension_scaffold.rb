@@ -7,9 +7,15 @@ module ChromeExtensionScaffold
       include Thor::Actions
       namespace ""
       argument :name
+      source_root File.expand_path("../../template", __FILE__)
       
-      def say_hello
-        say "hello"
+      def set_root
+        empty_directory name
+        self.destination_root = name
+      end
+      
+      def create_dir
+        template "manifest.json"
       end
     end
   end

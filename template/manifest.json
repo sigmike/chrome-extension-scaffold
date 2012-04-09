@@ -1,0 +1,12 @@
+{
+  "name": "<%= name %>",
+  "version": "0.1",
+  "description": "<%= name %>",
+  "content_scripts": [
+    {
+      "matches": ["http://example.com/*"],
+      "js": ["jquery-1.3.2.js", "content.js"]
+    }
+  ],
+  "background_page": "background.html"
+}
