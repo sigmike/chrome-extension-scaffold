@@ -12,6 +12,7 @@ module ChromeExtensionScaffold
       add_runtime_options!
       class_option :jquery, :default => true, :type => :boolean
       class_option :haml, :default => true, :type => :boolean
+      class_option :coffee, :default => true, :type => :boolean
       
       def create_root
         empty_directory name
@@ -35,11 +36,11 @@ module ChromeExtensionScaffold
       end
       
       def install_background_js
-        template "background.js"
+        template "background.js#{".coffee" if coffee?}"
       end
       
       def install_content_js
-        template "content.js"
+        template "content.js#{".coffee" if coffee?}"
       end
       
       def install_watcher
@@ -64,12 +65,12 @@ module ChromeExtensionScaffold
         options[:jquery]
       end
       
-      def watcher?
-        haml?
+      def coffee?
+        options[:coffee]
       end
       
-      def coffee?
-        false
+      def watcher?
+        haml? or coffee?
       end
     end
   end
