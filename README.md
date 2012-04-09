@@ -1,24 +1,18 @@
-# ChromeExtensionScaffold
+# Chrome extension scaffold
 
-TODO: Write a gem description
+Generate a scaffold for a Chrome extension.
+
+By default it generates HAML and CoffeeScript files.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'chrome_extension_scaffold'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Or install with:
 
     $ gem install chrome_extension_scaffold
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ chrome_extension_scaffold my_extension_name
 
 ## Contributing
 

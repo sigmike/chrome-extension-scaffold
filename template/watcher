@@ -12,6 +12,13 @@ def log_built(src, dst)
   puts [src, dst].join(" => ")
 end
 
+def log_failure(src, e)
+  f = STDERR
+  f.puts "Failed to convert #{src}:"
+  f.puts "#{e.message} (#{e.class})"
+  f.puts e.backtrace.join("\n")
+end
+
 <% if coffee? -%>
 def build_coffee(src)
   dst = src.sub /\.coffee$/, ''
@@ -21,6 +28,8 @@ def build_coffee(src)
   js = CoffeeScript.compile(js)
   File.open(dst, "w") { |f| f.write js }
   log_built(src, dst)
+rescue => e
+  log_failure(src, e)
 end
 
 watch( '(.+)\.coffee$' ) { |md| build_coffee(md[0]) }
@@ -35,6 +44,8 @@ def build_haml(src)
   output = haml_engine.render(binding())
   File.open(dst, "w") { |f| f.write output }
   log_built(src, dst)
+rescue => e
+  log_failure(src, e)
 end
 
 watch( '(.+)\.haml$' ) { |md| build_haml(md[0]) }
