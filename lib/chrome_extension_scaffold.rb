@@ -9,6 +9,8 @@ module ChromeExtensionScaffold
       argument :name
       source_root File.expand_path("../../template", __FILE__)
       
+      class_option :jquery, :default => true, :type => :boolean
+      
       def set_root
         empty_directory name
         self.destination_root = name
@@ -16,6 +18,11 @@ module ChromeExtensionScaffold
       
       def create_dir
         template "manifest.json"
+      end
+      
+      protected
+      def jquery?
+        options[:jquery]
       end
     end
   end
