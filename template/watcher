@@ -12,7 +12,11 @@ def log_built(src, dst)
   puts [src, dst].join(" => ")
 end
 
-def build_js(src, dst)
+<% if coffee? -%>
+watch( '(.+)\.coffee$' ) do |md|
+  src = md[0]
+  dst = md[1]
+  
   js = File.read(src)
   eruby = Erubis::Eruby.new(js)
   js = eruby.result(binding())
@@ -20,37 +24,17 @@ def build_js(src, dst)
   File.open(dst, "w") { |f| f.write js }
   log_built(src, dst)
 end
+<% end -%>
 
-def build_haml(src, dst)
+<% if haml? -%>
+watch( '(.+)\.haml$' ) do |md|
+  src = md[0]
+  dst = md[1]
+  
   template = File.read(src)
   haml_engine = Haml::Engine.new(template, :filename => src)
   output = haml_engine.render(binding())
   File.open(dst, "w") { |f| f.write output }
   log_built(src, dst)
 end
-
-def build_sass(src, dst)
-  template = File.read(src)
-  engine = Sass::Engine.new(template, :filename => src)
-  output = engine.render(binding())
-  File.open(dst, "w") { |f| f.write output }
-  log_built(src, dst)
-end
-
-def rebuild
-  Dir["*.sass"].each do |src|
-    build_sass(src, File.basename(src, ".sass"))
-  end
-  Dir["*.haml"].each do |src|
-    build_haml(src, File.basename(src, ".haml"))
-  end
-  Dir["*.coffee"].each do |src|
-    build_js(src, File.basename(src, ".coffee"))
-  end
-end
-
-watch( '\.haml$' ) { rebuild }
-watch( '\.coffee$' ) { rebuild }
-watch( '\.sass$' ) { rebuild }
-
-rebuild
+<% end -%>

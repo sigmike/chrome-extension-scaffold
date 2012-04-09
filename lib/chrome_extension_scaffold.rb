@@ -9,6 +9,7 @@ module ChromeExtensionScaffold
       argument :name
       source_root File.expand_path("../../template", __FILE__)
       
+      add_runtime_options!
       class_option :jquery, :default => true, :type => :boolean
       class_option :haml, :default => true, :type => :boolean
       
