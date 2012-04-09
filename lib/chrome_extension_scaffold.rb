@@ -24,6 +24,10 @@ module ChromeExtensionScaffold
         copy_file "jquery.js" if jquery?
       end
       
+      def install_background_html
+        template "background.html"
+      end
+      
       protected
       def jquery?
         options[:jquery]
